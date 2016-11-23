@@ -1,8 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/*Universidad del Valle de Guatemala
+*Luis Abadía
+*Carnet 13300
+* Clase Main
+*Fecha de creacion la hace 2 semanas
+*Descripcion: en esta clase se crean nodos, relaciones, y se estaba desarrollando sin interfz grafica
+*Este metodo era para asegurar y probar como era que funcionaba Neo4j con el proyecto, esta fue la primera clase en crearse
+*Actualmente la clase no se utiliza para el funcionamiento del proyecto
+*/
 package Clases;
 
 import java.io.File;
