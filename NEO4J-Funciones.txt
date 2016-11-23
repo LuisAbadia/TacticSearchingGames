@@ -1,0 +1,36 @@
+
+Para leer datos del Archivo CSV:
+load csv with headers from "file:///Aeropuerto.csv" as air 
+create(a1: airports {label: air.label, city: air.city, state: air.state})
+
+
+
+Para borrar datos:
+MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r
+
+
+Cargando datos iniciales:
+
+****************************************************
+
+PER:load csv with headers from "file:///Personas.csv" as per 
+create(PER: PER {nombre: per.nombre,edad: per.edad,pais: per.pais, genero: per.genero, ID: per.ID,catFav: per.catFav,juegoFav: per.juegoFav,platFav: per.platFav})
+
+Jue:load csv with headers from "file:///Juegos.csv" as jue create(JUE: JUE {numero: jue.numero, juego: jue.juego, nom: jue.nom})
+
+Plataforma:load csv with headers from "file:///Plataforma.csv" as pla create(PLA: PLA {nombre: pla.nombre, consola: pla.consola, Control: pla.Control, Casa: pla.Casa, lanzamiento: pla.lanzamiento})
+
+Categoria:load csv with headers from "file:///Categoria.csv" as cat create(Categoria: Categoria {numero: cat.numero, categoria: cat.categoria})
+
+Clasificacion:load csv with headers from "file:///Clasificacion.csv" as cla create(Clasificacion: Clasificacion {clasificacion: cla.clasificacion,edad: cla.edad,nom: cla.nom,rated: cla.rated})
+
+****************************************************
+
+Relacion de juego a clasificacion:
+load csv with headers from "file:///Juegos.csv" as jue match(JUE: JUE {nom: jue.nom}),(Clasificacion: Clasificacion{nom: jue.nom}) create (JUE)-[r: TieneClasificacion]->(Clasificacion)
+
+Relacion Persona Juego:
+load csv with headers from "file:///Personas.csv" as per match(PER: PER{juegoFav: per.juegoFav}),(JUE: JUE{numero: per.numero}) create (PER)-[r: JuegoFavorito]->(JUE)
+
+Relacion Persona Plataforma:
+load csv with headers from "file:///Personas.csv" as per match(PER: PER{platFav: per.platFav}),(PLA: PLA {consola: per.consola}) create(PER)-[c: Consola_Fav]->(PLA)
