@@ -1,8 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/*Universidad del Valle de Guatemala
+*Luis Abadía
+*Carnet 13300
+* Clase Vista
+*Fecha de creacion la clase vista semana pasada
+*Descripcion: La clase vista es el inicio del Programa, aca se inicia para pasar a la pedida de datos
+*/
 package Clases;
 
 import java.util.HashSet;
