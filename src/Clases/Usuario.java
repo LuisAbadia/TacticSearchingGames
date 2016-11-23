@@ -1,4 +1,11 @@
-
+/*Universidad del Valle de Guatemala
+*Luis Abadía
+*Carnet 13300
+* Clase Usuario
+*Descripcion: en esta clase se esperaba poder modificar los datos del usuario,
+*tomando el nodo, modificandolo con datos nuevos y actualizar el nodo, sin embargo se cambio de metodo para hacer esto
+*Esta clase no es vital para el funcionamiento
+*/
 package Clases;
 
 //Se importan librerias
