@@ -1,3 +1,9 @@
+/*Universidad del Valle de Guatemala
+*Luis Abadía
+*Carnet 13300
+* Clase Agregar
+*Descripcion: en esta clase se se buscaba poder agregar usuarios desde la interfaz 
+*/
 
 package Clases;
 
