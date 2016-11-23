@@ -2,6 +2,7 @@
 *Luis Abadía
 *Carnet 13300
 * Clase Vista2
+*Fecha de creacion la clase vista2, fue de lunes 21/11/2016
 *Descripcion: en esta clase se ingresa el usuario y ademas se crea uno nuevo, si el usuario existe pasa a la siguiente ventana 
 */
 package Clases;
