@@ -12,6 +12,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.Vector;
 import javax.swing.JOptionPane;
+import org.neo4j.cypher.internal.ExecutionEngine;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Label;
@@ -50,6 +51,7 @@ public class Metodos {
         this.nombre = nombre;
         this.edad = edad;
         this.graphDatabaseService = new GraphDatabaseFactory().newEmbeddedDatabase(new File (MainPath));
+        
     }
     
     /*
@@ -63,7 +65,7 @@ public class Metodos {
     *Tipo de Nodos
     */
     private static enum NodeType implements Label{
-        USER,Juego,TIPO_JUEGO;
+        USER,JUEGO,TIPO;
     }
     
     /*
@@ -71,7 +73,7 @@ public class Metodos {
     *Tipo de Relaciones
     */
     private static enum RelType implements RelationshipType{
-        ES_TIPO,Play, INTERES;
+        ES_TIPO,PLAY, INTERES, CONOCE, Hermanos, AMIGOS;
     }
     
     
@@ -125,10 +127,10 @@ public class Metodos {
             
             this.user = user;
         } 
-        /*else if (mode == 2){
+        else if (mode == 2){
             boolean state2 = false;
             //Buscar todos los usuarios
-            ResourceIterator<Node> users2 = this.graphDatabaseService.findNodes(NodeType.USER);
+            ResourceIterator<Node> users2 = this.graphDatabaseService.findNodes(NodeType.TIPO);
             while(users2.hasNext()){
                 user = users2.next();
                 if (user.getProperty("Username").equals(this.username2)){
@@ -145,13 +147,44 @@ public class Metodos {
                 this.user2 = null;
             }
         }
-        */
+        
         tx.success();
         if (!unregistered){
             tx.close();
             this.graphDatabaseService.shutdown();
         }
         }
+    }
+    
+    public void openDatabase2(int mode, Node use){
+        boolean state = false;
+        boolean found = false;
+        Node user3 = null;
+        Node us = use;
+        boolean unregistered = true;
+        
+        try (Transaction tx = graphDatabaseService.beginTx()){
+            
+            if(mode==1){
+            ResourceIterator<Node> users3 = this.graphDatabaseService.findNodes(NodeType.TIPO);
+                while(users3.hasNext()){
+                    user3 = users3.next();
+                    if (user3.getProperty("tipo").equals("Accion")){
+                        state = true;
+                        break;
+                    }
+                    //Si se encontro el usuario
+                    if (state){
+                        this.user.createRelationshipTo(user3, RelType.INTERES);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Nodo no encontrado");
+                        
+                     }
+                }
+            }
+            tx.success();
+        }
+       
     }
     
     /*
@@ -200,7 +233,29 @@ public class Metodos {
     }
 
     
+    public Vector getRecomendacion(String tema){
     
+        Vector tomar = new Vector();
+        tomar.clear();
+        
+        try (Transaction tx = graphDatabaseService.beginTx()){
+        
+            ResourceIterator<Node> can = graphDatabaseService.findNodes(NodeType.TIPO);
+            Iterable<Relationship> relation;
+            while(can.hasNext()){
+                Node gen = can.next();
+                if(gen.getProperties("tipo").equals(tema)){
+                    for (Relationship relationship : gen.getRelationships(Direction.OUTGOING,RelType.ES_TIPO)){
+                            tomar.add((String) relationship.getOtherNode(gen).getProperty("tipo"));
+                
+                }
+                }
+            }
+            tx.success();
+        }
+        System.out.println(tomar);
+        return tomar;
+    }
     
 
     /**
@@ -209,16 +264,16 @@ public class Metodos {
      * @param tipo tipo de juego
      */
     public void Relacionar(Node user1, String tipo){
-
+        
         GraphDatabaseService db = new GraphDatabaseFactory().newEmbeddedDatabase(new File(MainPath));
         try (Transaction tx = db.beginTx()){
             Node node1 = db.findNode(NodeType.USER, "Username", user1);
-            Node node2 = db.findNode(NodeType.TIPO_JUEGO, "TIPO_JUEGO", tipo);
-            node1.createRelationshipTo(node2, RelType.INTERES);
-
+            Node node2 = db.findNode(NodeType.TIPO, "tipo", tipo);
+            //node1.createRelationshipTo(node2, RelType.INTERES);
             tx.success();
         }
         db.shutdown();
+        
     }
 
     

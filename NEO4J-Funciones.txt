@@ -26,11 +26,16 @@ Clasificacion:load csv with headers from "file:///Clasificacion.csv" as cla crea
 
 ****************************************************
 
-Relacion de juego a clasificacion:
-load csv with headers from "file:///Juegos.csv" as jue match(JUE: JUE {nom: jue.nom}),(Clasificacion: Clasificacion{nom: jue.nom}) create (JUE)-[r: TieneClasificacion]->(Clasificacion)
+**************Definitivo******************************************
 
-Relacion Persona Juego:
-load csv with headers from "file:///Personas.csv" as per match(PER: PER{juegoFav: per.juegoFav}),(JUE: JUE{numero: per.numero}) create (PER)-[r: JuegoFavorito]->(JUE)
+JUEGO:
+load csv with headers from "file:///Juego.csv" as jue create(JUEGO: JUEGO {codigo: jue.cod,juego: jue.Juego})
+USER:
+load csv with headers from "file:///User.csv" as use create(USER: USER{Username: use.Username,Password: use.Password})
+TIPO:
+load csv with headers from "file:///Tipo.csv" as tip create(TIPO: TIPO{cod: tip.cod,tipo: tip.tipo})
 
-Relacion Persona Plataforma:
-load csv with headers from "file:///Personas.csv" as per match(PER: PER{platFav: per.platFav}),(PLA: PLA {consola: per.consola}) create(PER)-[c: Consola_Fav]->(PLA)
+Para hacer relacion:
+MATCH (a: JUEGO {Juego:"Dust"})
+MATCH (b: TIPO {Tipojuego: "Shooter"})
+MERGE (a)-[r: Relacionado]->(b) return r

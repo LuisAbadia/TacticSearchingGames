@@ -10,6 +10,7 @@ import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
+import org.neo4j.cypher.internal.ExecutionEngine;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
@@ -33,6 +34,9 @@ public class Interface extends javax.swing.JFrame {
     private Vector<Node> recommendations;
     private Vector<String> channel = new Vector();
     private Metodos database;
+    private Relationship relation;
+    
+    
     
     /**
      * Creates new form Interface
@@ -47,16 +51,14 @@ public class Interface extends javax.swing.JFrame {
     
     private static enum NodeType implements Label{
 
-        USER,JUEGO,TIPO_JUEGO;
+        USER,JUEGO,TIPO;
 
     }
     
     private static enum RelType implements RelationshipType{
-        ES_TIPO,Play,Interesado;
+        ES_TIPO,PLAY, INTERES, CONOCE, Hermanos, AMIGOS;
     }
     
-    
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -71,6 +73,16 @@ public class Interface extends javax.swing.JFrame {
         Salir = new javax.swing.JButton();
         Reset = new javax.swing.JButton();
         enviar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jRadioButton3 = new javax.swing.JRadioButton();
+        jRadioButton4 = new javax.swing.JRadioButton();
+        jRadioButton5 = new javax.swing.JRadioButton();
+        jRadioButton6 = new javax.swing.JRadioButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         jLabelFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -91,7 +103,7 @@ public class Interface extends javax.swing.JFrame {
                 ShooterActionPerformed(evt);
             }
         });
-        getContentPane().add(Shooter, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, -1, -1));
+        getContentPane().add(Shooter, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, -1, -1));
 
         Salir.setText("Exit?");
         Salir.addActionListener(new java.awt.event.ActionListener() {
@@ -116,6 +128,38 @@ public class Interface extends javax.swing.JFrame {
             }
         });
         getContentPane().add(enviar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 300, -1, -1));
+
+        jLabel1.setFont(new java.awt.Font("Sylfaen", 0, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Elija Tipo de Juego que mas le gusta :");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(46, 70, 220, 20));
+
+        jButton1.setText("Mostrar?");
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 300, -1, -1));
+
+        jRadioButton1.setText("Aventura");
+        getContentPane().add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, -1, -1));
+
+        jRadioButton2.setText("Carros");
+        getContentPane().add(jRadioButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 230, -1, -1));
+
+        jRadioButton3.setText("Puzzle");
+        getContentPane().add(jRadioButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 110, -1, -1));
+
+        jRadioButton4.setText("Estrategia");
+        getContentPane().add(jRadioButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 150, -1, -1));
+
+        jRadioButton5.setText("jRadioButton5");
+        getContentPane().add(jRadioButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 190, -1, -1));
+
+        jRadioButton6.setText("Familia");
+        getContentPane().add(jRadioButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 230, -1, -1));
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(436, 106, 240, 200));
 
         jLabelFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/2PARTE.png"))); // NOI18N
         getContentPane().add(jLabelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 380));
@@ -149,30 +193,11 @@ public class Interface extends javax.swing.JFrame {
     private void enviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarActionPerformed
 
         if(Accion.isSelected()){
-            System.out.println("Accion Seleccionado");
-            try (Transaction tx = database.getGraphDatabaseService().beginTx()) {
-                
-                Metodos met = new Metodos();
-                Tipo_J = "Accion";
-                //Tome el nodo de la persona   
-                //Tome el nodo seleccionado
-                //Crear relacion entre los 2 nodos
-                met.Relacionar(user, Tipo_J);
-                
-                
-                
-                //Buscar nodos que tengan la misma relacion que arriba
-                
-                //Mandarlo a dezplegar en la interfaz,
-                
-                //Si el usuario le da click algun nodo que aparecio
-                
-                //Crear relacion, esta interesado
-                
-                tx.success();
-            }
-            database.shutdown();
-
+            database = new Metodos();
+            database.openDatabase2(1, user);
+            System.out.println("Relacion agregada");
+            
+            
         }
         else if(Shooter.isSelected()){
             System.out.println("Shooter Seleccionado");
@@ -241,6 +266,16 @@ public class Interface extends javax.swing.JFrame {
     private javax.swing.JButton Salir;
     private javax.swing.JRadioButton Shooter;
     private javax.swing.JButton enviar;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelFondo;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JRadioButton jRadioButton4;
+    private javax.swing.JRadioButton jRadioButton5;
+    private javax.swing.JRadioButton jRadioButton6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }
