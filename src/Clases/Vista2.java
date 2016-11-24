@@ -49,7 +49,6 @@ public class Vista2 extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jTextUsuario = new javax.swing.JTextField();
         jPasswordContra2 = new javax.swing.JPasswordField();
-        jDesktopPane1 = new javax.swing.JDesktopPane();
         jLabelFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -103,7 +102,6 @@ public class Vista2 extends javax.swing.JFrame {
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 100, -1));
         getContentPane().add(jTextUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, 140, -1));
         getContentPane().add(jPasswordContra2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 160, 140, -1));
-        getContentPane().add(jDesktopPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 80, 60));
 
         jLabelFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/2PARTE.png"))); // NOI18N
         getContentPane().add(jLabelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 409));
@@ -234,7 +232,6 @@ public class Vista2 extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOk;
     private javax.swing.JButton jButton1;
-    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
